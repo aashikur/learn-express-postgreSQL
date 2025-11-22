@@ -164,4 +164,58 @@ Node.js is built on an event-driven model, which makes it highly efficient for h
 - **Process:** Entire Node.js application running
 - **Main Thread:** Executes JavaScript code
 - **Worker Threads:** Background threads for CPU-intensive tasks
-- **Event Loop Thread:** Handles async operations 
+- **Event Loop Thread:** Handles async operations
+
+---
+
+## Single-Threaded Server vs Multi-Threaded Server
+
+### Single-Threaded Server (Node.js)
+
+**How it works:**
+- One main thread handles all requests
+- Uses event loop for asynchronous operations
+- Non-blocking I/O prevents thread blocking
+
+**Advantages:**
+- ✓ Lower memory consumption (no thread overhead)
+- ✓ Simpler to develop and debug
+- ✓ Excellent for I/O-heavy applications
+- ✓ Scales horizontally easily
+- ✓ Fewer context switches
+
+**Disadvantages:**
+- ✗ CPU-intensive tasks block the event loop
+- ✗ Single core utilization by default
+- ✗ Cannot leverage multiple CPU cores directly
+
+### Multi-Threaded Server (Traditional: Java, PHP)
+
+**How it works:**
+- Creates a new thread for each incoming request
+- Each thread handles one request independently
+- Threads may be reused from a thread pool
+
+**Advantages:**
+- ✓ Can handle CPU-intensive operations
+- ✓ Utilizes multiple CPU cores efficiently
+- ✓ Straightforward request handling per thread
+
+**Disadvantages:**
+- ✗ High memory consumption (each thread needs memory)
+- ✗ More complex context switching overhead
+- ✗ Thread synchronization issues
+- ✗ Difficult to scale to thousands of connections
+- ✗ Harder to debug race conditions
+
+### Comparison Table:
+
+| Feature | Single-Threaded (Node.js) | Multi-Threaded (Java/PHP) |
+|---------|---------------------------|--------------------------|
+| **Memory Usage** | Low | High |
+| **Scalability** | Very High | Limited |
+| **CPU Utilization** | Single core (default) | Multiple cores |
+| **Concurrency** | Event-based | Thread-based |
+| **Best For** | I/O operations | CPU tasks |
+| **Context Switch** | Minimal | Heavy |
+| **Learning Curve** | Moderate | Steep | 
