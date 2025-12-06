@@ -1,3 +1,0 @@
-Mood: Happy
-
-Today I started learning Node.js!
