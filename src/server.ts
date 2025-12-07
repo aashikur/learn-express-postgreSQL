@@ -1,9 +1,9 @@
 import express from 'express'
-import {Pool} from "pg";
+import { Pool } from "pg";
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({path: path.join(process.cwd(), ".env")})
+dotenv.config({ path: path.join(process.cwd(), ".env") })
 const app = express()
 const port = 5000
 
@@ -31,7 +31,7 @@ const initDB = async () => {
     )
     `);
 
-    await pool.query(`
+  await pool.query(`
       CREATE TABLE IF NOT EXISTS todos(
         id SERIAL PRIMARY KEY,
         user_id INT REFERENCES users(id) ON
@@ -54,13 +54,29 @@ app.get('/', (req, res) => {
 })
 
 
-app.post('/', (req, res) =>{
-  console.log(req.body);
+app.post('/users', async (req, res) => {
+  const { name, email } = req.body;
 
-  res.status(201).json({
-    success: true,
-    message: 'post request successful'
-  })
+  try {
+    const result = await pool.query(
+      `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *`, [name, email]
+    );
+
+    console.log(result);
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: result.rows[0],
+    })
+
+  }
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Duplicate email not allowed',
+    })
+  }
+
 })
 
 
