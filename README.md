@@ -32,3 +32,9 @@ It will watch for changes and restart the server automatically
 part 2: postgreSQL + neon
 npm i pg
 neon server -> connection string with Pool form pg with connectionString (how to connect)
+
+created users and todo data table in neon
+
+part 3: Environment Variables
+npm i dotenv
+create .env file and add connection string there and added dotenv.config() in server.ts

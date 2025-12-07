@@ -1,5 +1,9 @@
 import express from 'express'
 import {Pool} from "pg";
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({path: path.join(process.cwd(), ".env")})
 const app = express()
 const port = 5000
 
@@ -9,7 +13,7 @@ app.use(express.json());
 // for form data
 // app.use(express.urlencoded());
 const pool = new Pool({
-  connectionString: `postgresql://neondb_owner:npg_t5E4KqlfFSwA@ep-dark-sun-ah7v9k1e-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
+  connectionString: `${process.env.CONNECTION_STRING}`
 })
 
 
@@ -25,10 +29,25 @@ const initDB = async () => {
     created_at TIMESTAMP DEFAULT NOW(), 
     updated_at TIMESTAMP DEFAULT NOW()
     )
-    `)
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS todos(
+        id SERIAL PRIMARY KEY,
+        user_id INT REFERENCES users(id) ON
+        DELETE CASCADE,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        completed BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW(),
+        due_date TIMESTAMP
+      )
+      `)
 }
 
 initDB();
+
 
 app.get('/', (req, res) => {
   res.send('Server Created!')
