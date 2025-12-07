@@ -1,5 +1,6 @@
 # First server_with_express
 ============================
+part 1: Setting up a basic Express server with TypeScript
 
 ```
 npm init -y
@@ -26,3 +27,8 @@ It will watch for changes and restart the server automatically
     "dev": "npx tsx watch src/server.ts"
   },
 ```
+
+
+part 2: postgreSQL + neon
+npm i pg
+neon server -> connection string with Pool form pg with connectionString (how to connect)
