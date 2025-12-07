@@ -98,11 +98,21 @@ app.get('/users', async (req, res) => {
 app.get('/users/:id', async (req, res) => {
   try {
     const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [req.params.id]);
-    console.log(result.rows[0]);
-    res.status(200).json({
-      success: true,
-      data: result.rows[0],
-    })
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+      }
+      )
+    } else {
+      res.status(200).json({
+        success: true,
+        MESSAGE: 'USER FETCH SUCCESSFULLY',
+        data: result.rows[0],
+      })
+    }
+
   } catch (error) {
     res.status(500).json({
       success: false,
