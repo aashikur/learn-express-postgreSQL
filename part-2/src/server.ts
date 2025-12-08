@@ -1,9 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express'
-import { Pool } from "pg";
-import dotenv from 'dotenv';
-import path from 'path';
-import { error } from 'console';
 import { config } from './config'
+import initDB, {pool} from './config/db'
 
 const app = express()
 const port = config.port;
@@ -13,40 +10,10 @@ const port = config.port;
 app.use(express.json());
 // for form data
 // app.use(express.urlencoded());
-const pool = new Pool({
-  connectionString :  config.connection_str
-})
 
-const initDB = async () => {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS users(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    age INT,
-    phone VARCHAR(15),
-    address TEXT,
-    created_at TIMESTAMP DEFAULT NOW(), 
-    updated_at TIMESTAMP DEFAULT NOW()
-    )
-    `);
-
-  await pool.query(`
-      CREATE TABLE IF NOT EXISTS todos(
-        id SERIAL PRIMARY KEY,
-        user_id INT REFERENCES users(id) ON
-        DELETE CASCADE,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        completed BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT NOW(),
-        updated_at TIMESTAMP DEFAULT NOW(),
-        due_date TIMESTAMP
-      )
-      `)
-}
-
+// Initialize Database
 initDB();
+
 // middleware Simple 
 const logger = ( req : Request, res: Response, next: NextFunction ) => {
   console.log(`${req.method} ${req.path} -- ${new Date().toISOString()}`);
