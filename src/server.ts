@@ -149,6 +149,34 @@ app.put('/users/:id', async (req, res) => {
   }
 })
 
+app.delete('/users/:id', async (req, res) => {
+  try {
+    
+    const result = await pool.query(
+    `DELETE FROM users WHERE id = $1 RETURNING *`, [req.params.id]);
+
+    if (result.rowCount === 0) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+      }
+      )
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'User deleted successfully',
+        data: result.rows,
+      })
+    }
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete user',
+    })
+  }
+})
+
 
 
 
