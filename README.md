@@ -51,3 +51,15 @@ Added 404 route at the end of all routes in server.ts
 
 part 6: Middleware for logging
 Created a simple logger middleware that logs the method, path, and timestamp of each request to 
+
+todos 
+get all todos
+get todo by id
+create todo
+update todo
+delete todo
+
+total learning time: ~4-5 hours this from scratch to this point
+
+Next steps:
+convert to -> modular pattern
