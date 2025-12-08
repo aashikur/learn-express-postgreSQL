@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import { config } from './config'
 import initDB, {pool} from './config/db'
+import logger from './middleware/logger';
 
 const app = express()
 const port = config.port;
@@ -14,11 +15,7 @@ app.use(express.json());
 // Initialize Database
 initDB();
 
-// middleware Simple 
-const logger = ( req : Request, res: Response, next: NextFunction ) => {
-  console.log(`${req.method} ${req.path} -- ${new Date().toISOString()}`);
-  next();
-};
+
 // Apply logger only to /users routes
 app.use('/users', logger);
 
