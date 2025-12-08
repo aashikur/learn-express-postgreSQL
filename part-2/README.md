@@ -63,3 +63,10 @@ total learning time: ~4-5 hours this from scratch to this point
 
 Next steps:
 convert to -> modular pattern
+
+## ====================================
+part 7: Modularizing the code
+
+config -> DB connection
+       -> dotenv config
+

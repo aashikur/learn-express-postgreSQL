@@ -3,10 +3,10 @@ import { Pool } from "pg";
 import dotenv from 'dotenv';
 import path from 'path';
 import { error } from 'console';
+import { config } from './config'
 
-dotenv.config({ path: path.join(process.cwd(), ".env") })
 const app = express()
-const port = 5000
+const port = config.port;
 
 
 // parser
@@ -14,9 +14,8 @@ app.use(express.json());
 // for form data
 // app.use(express.urlencoded());
 const pool = new Pool({
-  connectionString: `${process.env.CONNECTION_STRING}`
+  connectionString :  config.connection_str
 })
-
 
 const initDB = async () => {
   await pool.query(`
