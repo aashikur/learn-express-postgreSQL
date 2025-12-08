@@ -2,6 +2,7 @@ import express from 'express'
 import { Pool } from "pg";
 import dotenv from 'dotenv';
 import path from 'path';
+import { error } from 'console';
 
 dotenv.config({ path: path.join(process.cwd(), ".env") })
 const app = express()
@@ -176,6 +177,35 @@ app.delete('/users/:id', async (req, res) => {
     })
   }
 })
+
+// todo routes will go here
+
+app.post('/todos', async (req, res) => {
+  const {id, title} = req.body;
+  try {
+    const result = await pool.query(`
+      INSERT INTO todos (id, title) VALUES ($1, $2) RETURNING *`, [id, title]);
+      res.status(201).json({
+        success: true,
+        message: 'Todo created successfully',
+        data: result.rows[0]
+      })
+  }
+  catch(error){
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create todo',
+    })
+  }
+});
+
+
+
+
+
+
+
+
 
 
 
