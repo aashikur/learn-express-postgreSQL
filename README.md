@@ -48,3 +48,6 @@ PUT /users/:id
 DELETE /users/:id
 part 5: Error handling and 404 route
 Added 404 route at the end of all routes in server.ts
+
+part 6: Middleware for logging
+Created a simple logger middleware that logs the method, path, and timestamp of each request to 

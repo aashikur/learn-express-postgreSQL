@@ -185,8 +185,11 @@ app.delete('/users/:id', async (req, res) => {
   }
 })
 
-// todo routes will go here
 
+
+
+
+// todo routes will go here
 app.post('/todos', async (req, res) => {
   const {id, title} = req.body;
   try {
@@ -207,8 +210,108 @@ app.post('/todos', async (req, res) => {
 });
 
 
+// Get all todos
+app.get('/todos', async (req, res) => {
+  try{
+    const result = await pool.query(`SELECT * FROM todos`);
+    res.status(200).json({
+      success: true,
+      data: result.rows
+    })
+  } 
+  catch(error){
+    res.status(500).json(
+      {
+        success: false,
+        message: 'Fail to get the todos'
+      }
+    )
+  }
+})
+
+// get todo by id
+app.get('/todos/:id', async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM  todos WHERE id = $1`, [req.params.id]);
+
+    if(result.rows.length === 0){
+      res.status(404).json({
+        success: false,
+        message: 'Todo not found',
+      })
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Todo fetched successfully',
+        data: result.rows[0]
+      })
+    }
+  }
+  catch(error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch todo',
+    })
+  }
+})
 
 
+// update todo
+app.put('/todos/:id', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      UPDATE todos SET title = $1 WHERE id = $2 RETURNING *`, [req.body.title, req.params.id]);
+
+      if(result.rows.length === 0){
+        res.status(404).json({
+          success: false,
+          message: 'Todo not found'
+        })
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Todo updated successfully',
+          data: result.rows[0]
+        })
+      }
+  }
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update todo'
+    })
+  }
+})
+
+
+
+// delete todo
+app.delete('/todos/:id', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      DELETE FROM todos WHERE id = $1 RETURNING *`, [req.params.id]);
+
+      if(result.rowCount === 0) {
+        res.status(404).json({
+          success: false,
+          message: 'Todo not found'
+        })
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Todo deleted successfully',
+          data: result.rows[0]
+        })
+      }
+
+      
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete todo'
+    })
+  }
+})
 
 
 
