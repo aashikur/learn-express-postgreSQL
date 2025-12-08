@@ -38,3 +38,13 @@ created users and todo data table in neon
 part 3: Environment Variables
 npm i dotenv
 create .env file and add connection string there and added dotenv.config() in server.ts
+
+
+part 4: CRUD operations with express and postgreSQL
+GET /users
+GET /users/:id
+POST /users
+PUT /users/:id
+DELETE /users/:id
+part 5: Error handling and 404 route
+Added 404 route at the end of all routes in server.ts

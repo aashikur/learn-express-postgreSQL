@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { Pool } from "pg";
 import dotenv from 'dotenv';
 import path from 'path';
@@ -48,8 +48,15 @@ const initDB = async () => {
 }
 
 initDB();
+// middleware Simple 
+const logger = ( req : Request, res: Response, next: NextFunction ) => {
+  console.log(`${req.method} ${req.path} -- ${new Date().toISOString()}`);
+  next();
+};
+// Apply logger only to /users routes
+app.use('/users', logger);
 
-
+// routes
 app.get('/', (req, res) => {
   res.send('Server Created!')
 })
@@ -206,8 +213,14 @@ app.post('/todos', async (req, res) => {
 
 
 
-
-
+// 404 route
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found',
+    path: req.path
+  })
+})
 
 
 app.listen(port, () => {
