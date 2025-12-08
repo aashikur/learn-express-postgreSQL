@@ -30,21 +30,21 @@ app.use('/users', userRouter);
 
 
 
-app.get('/users', async (req, res) => {
-  try {
-    const request = await pool.query(`SELECT * FROM users`)
-    res.status(200).json({
-      success: true,
-      data: request.rows,
-    })
-  }
-  catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch users',
-    })
-  }
-})
+// app.get('/users', async (req, res) => {
+//   try {
+//     const request = await pool.query(`SELECT * FROM users`)
+//     res.status(200).json({
+//       success: true,
+//       data: request.rows,
+//     })
+//   }
+//   catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'Failed to fetch users',
+//     })
+//   }
+// })
 
 app.get('/users/:id', async (req, res) => {
   try {
