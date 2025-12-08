@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import { config } from './config'
 import initDB, {pool} from './config/db'
 import logger from './middleware/logger';
+import { userRouter } from './modules/user/user.routes';
 
 const app = express()
 const port = config.port;
@@ -15,40 +16,19 @@ app.use(express.json());
 // Initialize Database
 initDB();
 
-
-// Apply logger only to /users routes
-app.use('/users', logger);
-
 // routes
 app.get('/', (req, res) => {
   res.send('Server Created!')
 })
 
 
-app.post('/users', async (req, res) => {
-  const { name, email } = req.body;
+// user routes
+app.use('/users', userRouter);
 
-  try {
-    const result = await pool.query(
-      `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *`, [name, email]
-    );
 
-    console.log(result);
-    res.status(201).json({
-      success: true,
-      message: 'User created successfully',
-      data: result.rows[0],
-    })
 
-  }
-  catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Duplicate email not allowed',
-    })
-  }
 
-})
+
 
 app.get('/users', async (req, res) => {
   try {
