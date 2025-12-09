@@ -27,50 +27,7 @@ app.use('/users', userRouter);
 
 
 
-
-
-
-// app.get('/users', async (req, res) => {
-//   try {
-//     const request = await pool.query(`SELECT * FROM users`)
-//     res.status(200).json({
-//       success: true,
-//       data: request.rows,
-//     })
-//   }
-//   catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: 'Failed to fetch users',
-//     })
-//   }
-// })
-
-app.get('/users/:id', async (req, res) => {
-  try {
-    const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [req.params.id]);
-
-    if (result.rows.length === 0) {
-      res.status(404).json({
-        success: false,
-        message: 'User not found',
-      }
-      )
-    } else {
-      res.status(200).json({
-        success: true,
-        MESSAGE: 'USER FETCH SUCCESSFULLY',
-        data: result.rows[0],
-      })
-    }
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch user',
-    })
-  }
-})
+app.get('/users/:id', userRouter);
 
 app.put('/users/:id', async (req, res) => {
   try {

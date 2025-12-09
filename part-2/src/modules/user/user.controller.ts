@@ -26,10 +26,10 @@ const createUser = async (req: Request, res: Response) => {
 
 }
 
-const getAllUsers =  async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response) => {
     try {
         const request = await userServices.getAllUsers();
-        
+
         res.status(200).json({
             success: true,
             data: request.rows,
@@ -43,7 +43,36 @@ const getAllUsers =  async (req: Request, res: Response) => {
     }
 }
 
+
+const getSingleUser = async (req: Request, res: Response) => {
+    try {
+        const result = await userServices.getSingleUser(req.params.id as string ); // type assertion
+
+        if (result.rows.length === 0) {
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+            }
+            )
+        } else {
+            res.status(200).json({
+                success: true,
+                MESSAGE: 'USER FETCH SUCCESSFULLY',
+                data: result.rows[0],
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch user',
+        })
+    }
+}
+
+
 export const userController = {
     createUser,
     getAllUsers,
+    getSingleUser,
 }
