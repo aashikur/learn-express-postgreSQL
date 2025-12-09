@@ -71,3 +71,14 @@ config -> DB connection
        -> dotenv config
 
 routes -> controllers -> services -> models
+modules -> user
+        -> todo
+middleware -> logger
+
+part 8: Services and Models
+user
+  => user.routes.ts
+  => user.controller.ts
+  => user.service.ts
+
+  this is how break down the code into smaller modules and files for better organization and maintainability.
