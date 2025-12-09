@@ -70,3 +70,4 @@ part 7: Modularizing the code
 config -> DB connection
        -> dotenv config
 
+routes -> controllers -> services -> models
