@@ -4,80 +4,77 @@ import { userServices } from "./user.service";
 
 
 const createUser = async (req: Request, res: Response) => {
-    const { name, email } = req.body;
+  try {
+    const result = await userServices.createUser(req.body);
 
-    try {
-        const result = await userServices.createUser(name, email);
-
-        console.log(result);
-        res.status(201).json({
-            success: true,
-            message: 'User created successfully',
-            data: result.rows[0],
-        })
-
-    }
-    catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Duplicate email not allowed',
-        })
-    }
+    console.log(result);
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: result.rows[0],
+    })
+  }
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Duplicate email not allowed',
+    })
+  }
 
 }
 
 const getAllUsers = async (req: Request, res: Response) => {
-    try {
-        const request = await userServices.getAllUsers();
+  try {
+    const request = await userServices.getAllUsers();
 
-        res.status(200).json({
-            success: true,
-            data: request.rows,
-        })
-    }
-    catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch users',
-        })
-    }
+    res.status(200).json({
+      success: true,
+      data: request.rows,
+    })
+  }
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch users',
+    })
+  }
 }
 
 
 const getSingleUser = async (req: Request, res: Response) => {
-    try {
-        const result = await userServices.getSingleUser(req.params.id as string ); // type assertion
+  try {
+    const result = await userServices.getSingleUser(req.params.id as string); // type assertion
 
-        if (result.rows.length === 0) {
-            res.status(404).json({
-                success: false,
-                message: 'User not found',
-            }
-            )
-        } else {
-            res.status(200).json({
-                success: true,
-                MESSAGE: 'USER FETCH SUCCESSFULLY',
-                data: result.rows[0],
-            })
-        }
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to fetch user',
-        })
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: 'User not found',
+      }
+      )
+    } else {
+      res.status(200).json({
+        success: true,
+        MESSAGE: 'USER FETCH SUCCESSFULLY',
+        data: result.rows[0],
+      })
     }
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch user',
+    })
+  }
 }
 
 
-const updateUser =  async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response) => {
   try {
-    
-    const result =  await userServices.updateUser(
-        req.body.name,
-        req.body.email,
-        req.params.id as string
+
+    const result = await userServices.updateUser(
+      req.body.name,
+      req.body.email,
+      req.params.id as string
     );
 
     if (result.rows.length === 0) {
@@ -103,11 +100,11 @@ const updateUser =  async (req: Request, res: Response) => {
 }
 
 
-const deleteUser =  async (req: Request, res: Response) => {
+const deleteUser = async (req: Request, res: Response) => {
   try {
-    
+
     const result = await userServices.deleteUser(
-        req.params.id as string
+      req.params.id as string
     );
 
     if (result.rowCount === 0) {
@@ -133,9 +130,9 @@ const deleteUser =  async (req: Request, res: Response) => {
 }
 
 export const userController = {
-    createUser,
-    getAllUsers,
-    getSingleUser,
-    updateUser,
-    deleteUser,
+  createUser,
+  getAllUsers,
+  getSingleUser,
+  updateUser,
+  deleteUser,
 }

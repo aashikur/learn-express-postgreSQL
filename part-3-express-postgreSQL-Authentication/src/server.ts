@@ -1,8 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express'
 import { config } from './config'
 import initDB, { pool } from './config/db'
-import { userRouter } from './modules/user/user.routes';
 import { todosRoutes } from './modules/todo/todos.routes';
+import { userRoutes } from './modules/user/user.routes';
+import { authRoutes } from './modules/auth/auth.router';
 
 export const app = express()
 const port = config.port;
@@ -21,20 +22,12 @@ app.get('/', (req, res) => {
 })
 
 // user routes
- app.use('/users', userRouter);
-
-// app.get('/users/:id', userRouter);
-// app.put('/users/:id',)
-// app.delete('/users/:id',)
-// app.use('/todos', todosRouter)
-
+ app.use('/users', userRoutes);
 // todo routes
 app.use('/todos', todosRoutes);
 
-// Get all todos
-// app.get('/todos/:id', )
-// update todo
-// delete todo
+// auth routes
+app.use('/auth', authRoutes)
 
 
 // 404 route

@@ -17,4 +17,4 @@ router.delete('/:id', userController.deleteUser);
 
 
 
-export const userRouter = router;
+export const userRoutes = router;
