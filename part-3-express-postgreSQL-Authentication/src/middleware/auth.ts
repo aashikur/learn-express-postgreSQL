@@ -20,7 +20,9 @@ const auth = (...roles : string[]) => {
          .verify(token, config.jwtSecret as string)  as JwtPayload;
 
       console.log("decoded:\n", decoded);
-      req.user = decoded;
+      
+      req.user = decoded; // User information in Request object
+
       // now we can access req.user in our controllers or other places to compare
 
       // ["admin"] => allow

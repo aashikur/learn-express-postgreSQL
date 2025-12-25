@@ -1,5 +1,7 @@
 # First server_with_express
 ============================
+Link : https://blog.logrocket.com/express-typescript-node/
+
 part 1: Setting up a basic Express server with TypeScript
 
 ```

@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response } from 'express'
 import { Pool } from "pg";
 import dotenv from 'dotenv';
 import path from 'path';
-import { error } from 'console';
 
 dotenv.config({ path: path.join(process.cwd(), ".env") })
 const app = express()
