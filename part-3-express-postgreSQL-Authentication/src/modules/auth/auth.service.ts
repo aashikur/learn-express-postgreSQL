@@ -22,6 +22,9 @@ const loginUser = async (email: string, password: string) => {
     const token = jwt.sign({
         name: user.name,
         email: user.email,
+        role: user.role,
+        id: user.id,
+        FromAshik: "TestingAnything-:D"
     }, config.jwtSecret as string, { expiresIn: '7d' })
 
     return { user, token }
