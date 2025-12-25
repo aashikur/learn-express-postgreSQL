@@ -7,6 +7,7 @@ console.log(`Configured PORT: ${PORT}`);
 
 const config : any = {
     port : process.env.PORT,
+    connection_string : process.env.CONNECTION_STRING
 }
 
 export default config;
