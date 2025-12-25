@@ -38,3 +38,23 @@ now added role to the token payload.
 and need to login again and set the token to headers to see the payload in console update.
 ## role based access control middleware
 Now create a role based access control middleware to check the user role before accessing the route.
+
+
+## Created app.ts and server.ts file for better structure
+
+
+## Software design pattern used:
+Interface | Routes | (M)odels | (V)iews | (C)ontrollers 
+=> MVC Pattern
+
+## We Used Modular Structure for better code management.
+
+ -> Student Files 
+   - interface.ts
+   - student.model.ts
+   - student.routes.ts
+   - student.controller.ts
+   - student.service.ts
+  
+
+  fate module thin controller
