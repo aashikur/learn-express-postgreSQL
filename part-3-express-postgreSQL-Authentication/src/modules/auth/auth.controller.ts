@@ -27,7 +27,7 @@ const loginUser = async (req: Request, res: Response) => {
     catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Invalid email or password',
+            message: 'Invalid email or password/something went wrong',
         })
     }
 }
