@@ -14,6 +14,9 @@ const createUser = async (payload : Record<string, unknown>) => {
 }
 
 
+const getAllUsers = async () => {
+    const request = await pool.query(`SELECT * FROM users`)
+}
 
 export const UserServices = {
     createUser,

@@ -22,8 +22,12 @@ const createUser = async (req: Request, res: Response) => {
 
 }
 
-
+const getAllUsers = async (req: Request, res: Response) => {
+    // Logic to get all users
+    res.send('Get all users endpoint')
+}
 
 export const UserController = {
     createUser,
+    getAllUsers,
 }
