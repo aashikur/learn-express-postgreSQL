@@ -25,6 +25,27 @@ const initDB = async () => {
         ADD COLUMN IF NOT EXISTS address VARCHAR(255) DEFAULT NULL
         `)
 
+
+
+
+    // todo 
+    const client2 = await pool.query(`
+        CREATE TABLE IF NOT EXISTS tasks (
+        
+        id SERIAL PRIMARY KEY,
+        user_id INT REFERENCES users(id) ON DELETE CASCADE,
+        title VARCHAR(255) NOT NULL,
+        description TEXT, 
+        status VARCHAR(50) DEFAULT 'pending', -- pending, in-progress, completed
+        priority VARCHAR(50) DEFAULT 'medium', -- low, medium, high
+        is_active BOOLEAN DEFAULT true,
+        due_date TIMESTAMP DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+        )`)
+
+
+
   } catch (error){
     console.error('Error connecting to the database', (error as Error).message);
   }
