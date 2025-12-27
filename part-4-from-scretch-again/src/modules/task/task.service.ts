@@ -24,21 +24,18 @@ const createTask = async (payload: Record<string, unknown>) => {
 }
 
 const getAllTask = async () => {
-    const result = await pool.query(`SELECT * FROM tasks ORDER BY due_date ASC`);
+    const result = await pool.query(`SELECT * FROM tasks WHERE is_active = true ORDER BY due_date ASC`);
     return result;
 }
 
 const getAllTaskByUserId = async (user_id: string) => {
-    const result = await pool.query(`
-        SELECT * FROM tasks WHERE user_id = $1
-    `, [user_id]);
+    const result = await pool.query(`SELECT * FROM tasks WHERE user_id = $1 AND is_active = true`, [user_id]);
     return result;
 }
 
-
 const getTaskById = async (id: string) => {
     const result = await pool.query(`
-    SELECT * FROM tasks WHERE id = $1`, [id]);
+    SELECT * FROM tasks WHERE id = $1 AND is_active = true`, [id]);
 
     if (result.rowCount === 0) {
         return null;
@@ -92,7 +89,8 @@ const deleteTaskById = async (id: string) => {
     const isExist = await pool.query(`SELECT * FROM tasks WHERE id = $1`, [id]);
     if (isExist.rowCount === 0) return null;
 
-    const request = await pool.query(`DELETE FROM tasks WHERE id = $1 RETURNING *`, [id]);
+    // const request = await pool.query(`DELETE FROM tasks WHERE id = $1 RETURNING *`, [id]);               // hard delete
+    const request = await pool.query(`UPDATE tasks SET is_active = false WHERE id = $1 RETURNING *`, [id]); // soft delete
     return request;
 }
 
