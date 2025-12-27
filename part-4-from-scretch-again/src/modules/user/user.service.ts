@@ -16,12 +16,14 @@ const createUser = async (payload: Record<string, unknown>) => {
 
 
 const getAllUsers = async () => {
-    const request = await pool.query(`SELECT id, name, email, phone FROM users`)
+    // const request = await pool.query(`SELECT id, name, email, phone FROM users`)
+    const request = await pool.query(`SELECT * FROM users`)
     return request;
 }
 
 const getUserById = async (id: string) => {
-    const request = await pool.query(`SELECT id, name, email, phone FROM users WHERE id = $1`, [id])
+    // const request = await pool.query(`SELECT id, name, email, phone FROM users WHERE id = $1`, [id])
+    const request = await pool.query(`SELECT * FROM users WHERE id = $1`, [id])
     return request;
 }
 
@@ -35,9 +37,20 @@ const updateUserById = async (id: string, payload: Record<string, unknown>) => {
     return request;
 }
 
+const deleteUserById = async (id: string) => {
+    const isExist = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
+    if (isExist.rowCount === 0) {
+       return null;
+    }
+
+    const request = await pool.query(`DELETE FROM users WHERE id = $1 RETURNING *`, [id]);
+    return request;
+}
+
 export const UserServices = {
     createUser,
     getAllUsers,
     getUserById,
-    updateUserById
+    updateUserById,
+    deleteUserById
 }

@@ -45,7 +45,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getUserById = async (req: Request, res: Response) => {
     const userId = req.params.id as string;
-    
+
     const result = await UserServices.getUserById(userId);
     res.status(200).send({
         status: 'success',
@@ -61,10 +61,26 @@ const updateUserById = async (req: Request, res: Response) => {
     })
 }
 
+const deleteUserById = async (req: Request, res: Response) => {
+    const request  = await UserServices.deleteUserById(req.params.id as string);
+
+    if (request === null) {
+        return res.status(404).send({
+            status: 'error',
+            message: 'User not found'
+        });
+    }
+
+    res.status(200).send({
+        status: 'User Deleted Successfully.',
+        data: request.rows[0]
+    });
+}
 
 export const UserController = {
     createUser,
     getAllUsers,
     getUserById,
-    updateUserById
+    updateUserById,
+    deleteUserById
 }

@@ -20,4 +20,9 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.put('/:id', async (req: Request, res: Response) => {
     await UserController.updateUserById(req, res);
 })
+
+router.delete('/:id', async (req: Request, res: Response) => {
+   await UserController.deleteUserById(req, res);
+})
+
 export const userRouter = router
