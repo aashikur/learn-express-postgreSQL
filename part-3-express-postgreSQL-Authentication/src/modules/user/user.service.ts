@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 
 const createUser = async (payload : Record<string, unknown>) => {
     const { name, role, email, password } = payload;
-
     const hashedPass = await bcrypt.hash(password as string, 10);
 
     const result = await pool.query(

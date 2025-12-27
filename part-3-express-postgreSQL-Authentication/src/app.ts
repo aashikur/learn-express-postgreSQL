@@ -1,12 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express'
-import { config } from './config'
 import initDB, { pool } from './config/db'
 import { todosRoutes } from './modules/todo/todos.routes';
 import { userRoutes } from './modules/user/user.routes';
 import { authRoutes } from './modules/auth/auth.router';
 
 const app = express()
-const port = config.port;
 
 // parser
 app.use(express.json());
