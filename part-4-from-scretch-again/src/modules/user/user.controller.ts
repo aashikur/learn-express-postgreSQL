@@ -31,50 +31,78 @@ const createUser = async (req: Request, res: Response) => {
 }
 
 const getAllUsers = async (req: Request, res: Response) => {
-    const request = await UserServices.getAllUsers();
-    console.log('All Users:', request.rows);
-    // Logic to get all users
-    res.status(200).send({
-        status: 'success',
-        data: request.rows,
-        meta: {
-            totalUser: request.rowCount,
-        }
-    });
+    try {
+        const request = await UserServices.getAllUsers();
+        console.log('All Users:', request.rows);
+        // Logic to get all users
+        res.status(200).send({
+            status: 'success',
+            data: request.rows,
+            meta: {
+                totalUser: request.rowCount,
+            }
+        });
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            message: (error as Error).message
+        })
+    }
 }
 
 const getUserById = async (req: Request, res: Response) => {
-    const userId = req.params.id as string;
+    try {
+        const userId = req.params.id as string;
 
-    const result = await UserServices.getUserById(userId);
-    res.status(200).send({
-        status: 'success',
-        data: result.rows[0]
-    })
+        const result = await UserServices.getUserById(userId);
+        res.status(200).send({
+            status: 'success',
+            data: result.rows[0]
+        })
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            message: (error as Error).message
+        })
+    }
 }
 
 const updateUserById = async (req: Request, res: Response) => {
-    const result = await UserServices.updateUserById(req.params.id as string, req.body);
-    res.status(200).send({
-        status: 'success',
-        data: result.rows[0]
-    })
+    try {
+        const result = await UserServices.updateUserById(req.params.id as string, req.body);
+        res.status(200).send({
+            status: 'success',
+            data: result.rows[0]
+        })
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            message: (error as Error).message
+        })
+    }
 }
 
 const deleteUserById = async (req: Request, res: Response) => {
-    const request  = await UserServices.deleteUserById(req.params.id as string);
+    try {
+        const request = await UserServices.deleteUserById(req.params.id as string);
 
-    if (request === null) {
-        return res.status(404).send({
-            status: 'error',
-            message: 'User not found'
+        if (request === null) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'User not found'
+            });
+        }
+
+        res.status(200).send({
+            status: 'User Deleted Successfully.',
+            data: request.rows[0]
         });
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            message: (error as Error).message
+        })
     }
-
-    res.status(200).send({
-        status: 'User Deleted Successfully.',
-        data: request.rows[0]
-    });
 }
 
 export const UserController = {
