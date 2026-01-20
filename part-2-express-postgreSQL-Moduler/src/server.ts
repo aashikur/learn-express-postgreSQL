@@ -31,10 +31,6 @@ app.get('/', (req, res) => {
 // todo routes
 app.use('/todos', todosRoutes);
 
-// Get all todos
-// app.get('/todos/:id', )
-// update todo
-// delete todo
 
 
 // 404 route
